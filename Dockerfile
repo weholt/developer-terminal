@@ -118,7 +118,7 @@ RUN echo 'syntax on\nset number\nset tabstop=4\nset shiftwidth=4\nset expandtab\
 
 # Welcome banner
 RUN echo 'echo ""' >> /root/.bashrc && \
-    echo 'echo "🏠 Welcome to @home Web Terminal"' >> /root/.bashrc && \
+    echo 'echo "🏠 Welcome to Developer Terminal"' >> /root/.bashrc && \
     echo 'echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"' >> /root/.bashrc && \
     echo 'echo "📁 Current directory: $(pwd)"' >> /root/.bashrc && \
     echo 'echo "⚙️  Editors: nano, vim, nvim (NvChad)"' >> /root/.bashrc && \
