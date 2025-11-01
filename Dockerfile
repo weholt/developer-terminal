@@ -36,7 +36,7 @@ RUN apt-get update && \
       python3 python3-pip python3-docker \
       unzip fontconfig ripgrep zsh fish direnv entr \
       rsync rclone glances iotop iftop bmon ncdu \
-      mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap \
+      mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap tmux \
       && rm -rf /var/lib/apt/lists/*
 
 # -------------------------------
