@@ -76,6 +76,9 @@ RUN ln -sf /usr/lib/node_modules/@githubnext/github-copilot-cli/cli.js /usr/loca
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.cargo/bin:$PATH"
 
+# Install CodeRabbit CLI
+RUN curl -fsSL https://cli.coderabbit.ai/install.sh | sh
+
 # Install Starship prompt
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
 
