@@ -125,7 +125,7 @@ RUN echo 'echo ""' >> /root/.bashrc && \
     echo 'echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"' >> /root/.bashrc && \
     echo 'echo "📁 Current directory: $(pwd)"' >> /root/.bashrc && \
     echo 'echo "⚙️  Editors: nano, vim, nvim (NvChad)"' >> /root/.bashrc && \
-    echo 'echo "🐍 Python: 3.x with uv | 🧠 AI CLIs: Copilot, Gemini, Claude, Opencode"' >> /root/.bashrc && \
+    echo 'echo "🐍 Python: 3.x with uv | 🧠 AI CLIs: Copilot, Gemini, Claude, Opencode, CodeRabbit"' >> /root/.bashrc && \
     echo 'echo "🐳 Docker tools: docker, compose, lazydocker"' >> /root/.bashrc && \
     echo 'echo "📦 Utilities: git, curl, htop, tree, jq, rg, yazi, lazygit"' >> /root/.bashrc && \
     echo 'echo "✨ Starship (Catppuccin Powerline)"' >> /root/.bashrc && \
