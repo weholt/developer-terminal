@@ -8,12 +8,15 @@ A comprehensive Docker-based development environment with web terminal access vi
 
 ```bash
 docker-compose up -d
+```
 
 Then access the web terminal at http://localhost:7681
 
 ### Using Docker CLI
 
+```bash
 docker run -it -p 7681:7681 -v ./workspace:/workspace ghcr.io/weholt/developer-terminal:latest
+```
 
 ## Features
 
@@ -91,17 +94,6 @@ Pre-installed globally:
 • JetBrains Mono Nerd Font - Beautiful monospace font with icons
 • tmux configuration - Terminal multiplexer config
 
-## Volume Mounts
-
-The container uses /workspace as the default working directory. Mount your local folder to persist files:
-
-docker run -v /path/to/your/workspace:/workspace dw:latest
-
-With docker-compose, modify the volumes section in docker-compose.yml:
-
-volumes:
-  - /absolute/path/to/your/workspace:/workspace
-
 ## Environment
 
 • Timezone: Europe/Oslo (customizable via TZ environment variable)
@@ -116,11 +108,9 @@ Open your browser to http://localhost:7681
 
 ### Docker exec
 
+```bash
 docker exec -it <container_id> bash
-
-### Docker attach
-
-docker attach <container_id>
+```
 
 ## Configuration Files
 
@@ -132,7 +122,9 @@ docker attach <container_id>
 
 ## Building from Source
 
+```bash
 docker build --no-cache -t dw:latest .
+```
 
 ## System Requirements
 
