@@ -76,6 +76,9 @@ RUN ln -sf /usr/lib/node_modules/@githubnext/github-copilot-cli/cli.js /usr/loca
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.cargo/bin:$PATH"
 
+# Install CodeRabbit CLI
+RUN curl -fsSL https://cli.coderabbit.ai/install.sh | sh
+
 # Install Starship prompt
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
 
@@ -122,7 +125,7 @@ RUN echo 'echo ""' >> /root/.bashrc && \
     echo 'echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"' >> /root/.bashrc && \
     echo 'echo "📁 Current directory: $(pwd)"' >> /root/.bashrc && \
     echo 'echo "⚙️  Editors: nano, vim, nvim (NvChad)"' >> /root/.bashrc && \
-    echo 'echo "🐍 Python: 3.x with uv | 🧠 AI CLIs: Copilot, Gemini, Claude, Opencode"' >> /root/.bashrc && \
+    echo 'echo "🐍 Python: 3.x with uv | 🧠 AI CLIs: Copilot, Gemini, Claude, Opencode, CodeRabbit"' >> /root/.bashrc && \
     echo 'echo "🐳 Docker tools: docker, compose, lazydocker"' >> /root/.bashrc && \
     echo 'echo "📦 Utilities: git, curl, htop, tree, jq, rg, yazi, lazygit"' >> /root/.bashrc && \
     echo 'echo "✨ Starship (Catppuccin Powerline)"' >> /root/.bashrc && \
