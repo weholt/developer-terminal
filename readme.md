@@ -24,7 +24,7 @@ docker run -it -p 7681:7681 -v ./workspace:/workspace ghcr.io/weholt/developer-t
 
 - Shell Environments: bash, zsh, fish
 - Editors: nano, vim, neovim (with NvChad configuration)
-- Terminal UI: ttyd (web-based terminal)
+- Terminal UI: ttyd (web-based terminal), tmux (terminal multiplexer)
 - Utilities: git, curl, wget, htop, tree, jq, ripgrep, fzf, entr
 
 ### File Management
