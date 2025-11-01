@@ -3,7 +3,7 @@
 # -------------------------------
 # Stage 1: Build and install Rust tools
 # -------------------------------
-FROM rust:1.82-slim as rusttools
+FROM rust:latest AS rusttools
 
 RUN apt-get update && apt-get install -y curl build-essential && rm -rf /var/lib/apt/lists/*
 RUN cargo install zoxide fd-find tealdeer du-dust eza duf bottom
@@ -11,7 +11,7 @@ RUN cargo install zoxide fd-find tealdeer du-dust eza duf bottom
 # -------------------------------
 # Stage 2: Build Node tools
 # -------------------------------
-FROM node:20-slim as nodetools
+FROM node:20-slim AS nodetools
 
 RUN npm install -g \
     @google/gemini-cli \
@@ -22,7 +22,7 @@ RUN npm install -g \
 # -------------------------------
 # Stage 3: Base system setup
 # -------------------------------
-FROM tsl0922/ttyd:latest as base
+FROM tsl0922/ttyd:latest AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Oslo
@@ -32,7 +32,7 @@ RUN apt-get update && \
     apt-get install -y \
       ca-certificates curl git build-essential \
       nano vim neovim wget htop fzf tree jq \
-      docker.io docker-compose-plugin \
+      docker.io \
       python3 python3-pip python3-docker \
       unzip fontconfig ripgrep zsh fish direnv entr \
       rsync rclone glances iotop iftop bmon ncdu \
@@ -42,7 +42,7 @@ RUN apt-get update && \
 # -------------------------------
 # Stage 4: Lazy tools (lazygit, lazydocker)
 # -------------------------------
-FROM base as lazytools
+FROM base AS lazytools
 
 RUN set -eux; \
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*'); \
@@ -127,6 +127,8 @@ RUN echo 'echo ""' >> /root/.bashrc && \
     echo 'echo "📦 Utilities: git, curl, htop, tree, jq, rg, yazi, lazygit"' >> /root/.bashrc && \
     echo 'echo "✨ Starship (Catppuccin Powerline)"' >> /root/.bashrc && \
     echo 'echo ""' >> /root/.bashrc
+
+COPY .tmux.conf /root/.tmux.conf
 
 WORKDIR /workspace
 

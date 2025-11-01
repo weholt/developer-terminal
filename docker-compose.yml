@@ -1,0 +1,12 @@
+services:
+  developer-terminal:
+    build: .
+    image: dghcr.io/weholt/developer-terminal:latest
+    ports:
+      - "7681:7681"
+    volumes:
+      - ./workspace:/workspace
+    environment:
+      - TZ=Europe/Oslo
+    stdin_open: true
+    tty: true
