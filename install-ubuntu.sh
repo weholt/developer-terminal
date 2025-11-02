@@ -37,7 +37,7 @@ sudo apt-get install -y \
     python3 python3-pip python3-docker \
     unzip fontconfig ripgrep zsh fish direnv entr \
     rsync rclone glances iotop iftop bmon ncdu \
-    mediainfo p7zip-full pass httpie tldr pgcli bat nmap tmux
+    mediainfo p7zip-full pass httpie tldr pgcli bat nmap tmux libarchive-tools
 
 print_success "Base utilities installed"
 
@@ -169,14 +169,9 @@ else
 fi
 
 # Install JetBrains Mono Nerd Font
-if [ ! -d /usr/share/fonts/truetype/jetbrains-mono ] || [ -z "$(ls -A /usr/share/fonts/truetype/jetbrains-mono)" ]; then
+if [ ! -d "$HOME/.local/share/fonts" ] || [ -z "$(ls -A "$HOME/.local/share/fonts" 2>/dev/null | grep -i jetbrains)" ]; then
     print_status "Installing JetBrains Mono Nerd Font..."
-    sudo mkdir -p /usr/share/fonts/truetype/jetbrains-mono
-    cd /tmp
-    wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-    sudo unzip -q -o JetBrainsMono.zip -d /usr/share/fonts/truetype/jetbrains-mono/
-    rm JetBrainsMono.zip
-    sudo fc-cache -fv > /dev/null 2>&1
+    sudo apt install -y fontconfig && mkdir -p ~/.local/share/fonts && wget -qO- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip | bsdtar -xvf- -C ~/.local/share/fonts && fc-cache -fv
     print_success "JetBrains Mono Nerd Font installed"
 else
     print_success "JetBrains Mono Nerd Font already installed"
