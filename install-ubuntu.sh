@@ -43,7 +43,10 @@ print_success "Base utilities installed"
 
 # Install Neovim from PPA
 print_status "Installing Neovim from unstable PPA..."
-sudo apt install -y software-properties-common && sudo add-apt-repository ppa:neovim-ppa/unstable -y && sudo apt update && sudo apt install -y neovim
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt-get update
+sudo apt-get install -y neovim
 print_success "Neovim installed"
 
 # Install docker.io if not already installed
