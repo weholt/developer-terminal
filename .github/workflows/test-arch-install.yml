@@ -1,0 +1,106 @@
+name: Test Arch Linux Installation Script
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'install-arch.sh'
+      - '.github/workflows/test-arch-install.yml'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'install-arch.sh'
+      - '.github/workflows/test-arch-install.yml'
+  workflow_dispatch:
+
+jobs:
+  test-arch:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    
+    steps:
+      - name: Install git in container
+        run: |
+          pacman -Sy --noconfirm git
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup sudo for non-root user
+        run: |
+          # Install sudo
+          pacman -S --noconfirm sudo
+          
+          # Create a non-root user for testing
+          useradd -m -s /bin/bash testuser
+          echo "testuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+          
+          # Make script accessible to testuser
+          chmod +x install-arch.sh
+          chown testuser:testuser install-arch.sh
+      
+      - name: Run installation script
+        run: |
+          # Run as testuser (not root)
+          su - testuser -c "cd /github/workspace && timeout 1800 bash -c './install-arch.sh' || {
+            exit_code=\$?
+            if [ \$exit_code -eq 124 ]; then
+              echo 'Script timed out after 30 minutes'
+              exit 1
+            fi
+            exit \$exit_code
+          }"
+      
+      - name: Verify key tools installation
+        run: |
+          # Run verification as testuser
+          su - testuser -c '
+            # Source the environment to get PATH updates
+            source ~/.cargo/env || true
+            source ~/.bashrc || true
+            
+            echo "Checking installed tools..."
+            
+            # Check basic utilities
+            git --version
+            vim --version | head -1
+            nvim --version | head -1
+            tmux -V
+            
+            # Check GitHub CLI
+            gh --version
+            
+            # Check if Rust tools are available
+            if command -v cargo &> /dev/null; then
+              cargo --version
+              echo "Rust tools path check:"
+              ls -la ~/.cargo/bin/ | head -20 || true
+            fi
+            
+            # Check Node.js
+            node --version
+            npm --version
+            
+            # Check if starship is installed
+            if command -v starship &> /dev/null; then
+              starship --version
+            fi
+            
+            # Check if lazygit is installed
+            if command -v lazygit &> /dev/null; then
+              lazygit --version
+            fi
+            
+            # Check if lazydocker is installed
+            if command -v lazydocker &> /dev/null; then
+              lazydocker --version
+            fi
+            
+            echo "✓ Key tools verification completed"
+          '
+      
+      - name: Check for script errors in logs
+        if: always()
+        run: |
+          echo "Script completed. Check logs above for any errors or warnings."
