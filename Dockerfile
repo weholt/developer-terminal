@@ -39,6 +39,14 @@ RUN apt-get update && \
       mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap tmux \
       && rm -rf /var/lib/apt/lists/*
 
+# Install GitHub CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && apt-get update \
+    && apt-get install -y gh \
+    && rm -rf /var/lib/apt/lists/*
+
 # -------------------------------
 # Stage 4: Lazy tools (lazygit, lazydocker)
 # -------------------------------
@@ -127,7 +135,7 @@ RUN echo 'echo ""' >> /root/.bashrc && \
     echo 'echo "⚙️  Editors: nano, vim, nvim (NvChad)"' >> /root/.bashrc && \
     echo 'echo "🐍 Python: 3.x with uv | 🧠 AI CLIs: Copilot, Gemini, Claude, Opencode, CodeRabbit"' >> /root/.bashrc && \
     echo 'echo "🐳 Docker tools: docker, compose, lazydocker"' >> /root/.bashrc && \
-    echo 'echo "📦 Utilities: git, curl, htop, tree, jq, rg, yazi, lazygit"' >> /root/.bashrc && \
+    echo 'echo "📦 Utilities: git, gh, curl, htop, tree, jq, rg, yazi, lazygit"' >> /root/.bashrc && \
     echo 'echo "✨ Starship (Catppuccin Powerline)"' >> /root/.bashrc && \
     echo 'echo ""' >> /root/.bashrc
 
