@@ -33,13 +33,21 @@ sudo apt-get update
 print_status "Installing base utilities..."
 sudo apt-get install -y \
     ca-certificates curl git build-essential \
-    nano vim neovim wget htop fzf tree jq \
+    nano vim wget htop fzf tree jq \
     python3 python3-pip python3-docker \
     unzip fontconfig ripgrep zsh fish direnv entr \
     rsync rclone glances iotop iftop bmon ncdu \
     mediainfo p7zip-full pass httpie tldr pgcli bat nmap tmux
 
 print_success "Base utilities installed"
+
+# Install Neovim from PPA
+print_status "Installing Neovim from unstable PPA..."
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt-get update
+sudo apt-get install -y neovim
+print_success "Neovim installed"
 
 # Install docker.io if not already installed
 if ! command -v docker &> /dev/null; then
