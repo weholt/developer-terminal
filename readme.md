@@ -26,6 +26,7 @@ docker run -it -p 7681:7681 -v ./workspace:/workspace ghcr.io/weholt/developer-t
 - Editors: nano, vim, neovim (with NvChad configuration)
 - Terminal UI: ttyd (web-based terminal), tmux (terminal multiplexer)
 - Utilities: git, curl, wget, htop, tree, jq, ripgrep, fzf, entr
+- GitHub CLI (gh) - Official GitHub command-line tool
 
 ### File Management
 
