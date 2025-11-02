@@ -169,14 +169,18 @@ else
 fi
 
 # Install JetBrains Mono Nerd Font
-print_status "Installing JetBrains Mono Nerd Font..."
-sudo mkdir -p /usr/share/fonts/truetype/jetbrains-mono
-cd /tmp
-wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-sudo unzip -q -o JetBrainsMono.zip -d /usr/share/fonts/truetype/jetbrains-mono/
-rm JetBrainsMono.zip
-sudo fc-cache -fv > /dev/null 2>&1
-print_success "JetBrains Mono Nerd Font installed"
+if [ ! -d /usr/share/fonts/truetype/jetbrains-mono ] || [ -z "$(ls -A /usr/share/fonts/truetype/jetbrains-mono)" ]; then
+    print_status "Installing JetBrains Mono Nerd Font..."
+    sudo mkdir -p /usr/share/fonts/truetype/jetbrains-mono
+    cd /tmp
+    wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    sudo unzip -q -o JetBrainsMono.zip -d /usr/share/fonts/truetype/jetbrains-mono/
+    rm JetBrainsMono.zip
+    sudo fc-cache -fv > /dev/null 2>&1
+    print_success "JetBrains Mono Nerd Font installed"
+else
+    print_success "JetBrains Mono Nerd Font already installed"
+fi
 
 # Install NvChad
 if [ ! -d "$HOME/.config/nvim" ]; then
