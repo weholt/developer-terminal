@@ -16,6 +16,8 @@ on:
 jobs:
   test-ubuntu:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository

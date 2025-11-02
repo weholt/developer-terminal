@@ -16,6 +16,8 @@ on:
 jobs:
   test-arch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     container:
       image: archlinux:latest
     
