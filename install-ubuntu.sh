@@ -171,7 +171,7 @@ fi
 # Install JetBrains Mono Nerd Font
 if [ ! -d "$HOME/.local/share/fonts" ] || [ -z "$(ls -A "$HOME/.local/share/fonts" 2>/dev/null | grep -i jetbrains)" ]; then
     print_status "Installing JetBrains Mono Nerd Font..."
-    sudo apt install -y fontconfig && mkdir -p ~/.local/share/fonts && wget -qO- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip | bsdtar -xvf- -C ~/.local/share/fonts && fc-cache -fv
+    mkdir -p ~/.local/share/fonts && wget -qO- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip | bsdtar -xvf- -C ~/.local/share/fonts && fc-cache -fv
     print_success "JetBrains Mono Nerd Font installed"
 else
     print_success "JetBrains Mono Nerd Font already installed"
