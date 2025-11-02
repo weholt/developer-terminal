@@ -18,6 +18,28 @@ Then access the web terminal at http://localhost:7681
 docker run -it -p 7681:7681 -v ./workspace:/workspace ghcr.io/weholt/developer-terminal:latest
 ```
 
+### Installing Tools Directly on Your System
+
+If you prefer to install all the tools directly on your system instead of using Docker, we provide installation scripts for:
+
+#### Ubuntu/Debian
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/weholt/developer-terminal/main/install-ubuntu.sh | bash
+# Or clone the repo and run:
+./install-ubuntu.sh
+```
+
+#### Arch Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/weholt/developer-terminal/main/install-arch.sh | bash
+# Or clone the repo and run:
+./install-arch.sh
+```
+
+**Note:** These scripts will install all the tools listed in the Features section below. The installation may take 15-30 minutes depending on your internet connection and system performance. You may need to restart your terminal or run `source ~/.bashrc` after installation.
+
 ## Features
 
 ### System Tools

@@ -1,0 +1,96 @@
+name: Test Ubuntu Installation Script
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'install-ubuntu.sh'
+      - '.github/workflows/test-ubuntu-install.yml'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'install-ubuntu.sh'
+      - '.github/workflows/test-ubuntu-install.yml'
+  workflow_dispatch:
+
+jobs:
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Make script executable
+        run: chmod +x install-ubuntu.sh
+      
+      - name: Run installation script
+        run: |
+          # Set environment variables to avoid interactive prompts
+          export DEBIAN_FRONTEND=noninteractive
+          export CI=true
+          
+          # Run the script with timeout to prevent hanging
+          timeout 1800 bash -c './install-ubuntu.sh' || {
+            exit_code=$?
+            if [ $exit_code -eq 124 ]; then
+              echo "Script timed out after 30 minutes"
+              exit 1
+            fi
+            exit $exit_code
+          }
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          CI: true
+      
+      - name: Verify key tools installation
+        run: |
+          # Source the environment to get PATH updates
+          source ~/.cargo/env || true
+          source ~/.bashrc || true
+          
+          echo "Checking installed tools..."
+          
+          # Check basic utilities
+          git --version
+          vim --version | head -1
+          nvim --version | head -1
+          tmux -V
+          
+          # Check GitHub CLI
+          gh --version
+          
+          # Check if Rust tools are available
+          if command -v cargo &> /dev/null; then
+            cargo --version
+            echo "Rust tools path check:"
+            ls -la ~/.cargo/bin/ | head -20 || true
+          fi
+          
+          # Check Node.js
+          node --version
+          npm --version
+          
+          # Check if starship is installed
+          if command -v starship &> /dev/null; then
+            starship --version
+          fi
+          
+          # Check if lazygit is installed
+          if command -v lazygit &> /dev/null; then
+            lazygit --version
+          fi
+          
+          # Check if lazydocker is installed
+          if command -v lazydocker &> /dev/null; then
+            lazydocker --version
+          fi
+          
+          echo "✓ Key tools verification completed"
+      
+      - name: Check for script errors in logs
+        if: always()
+        run: |
+          echo "Script completed. Check logs above for any errors or warnings."
