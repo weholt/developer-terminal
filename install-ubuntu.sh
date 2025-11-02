@@ -11,7 +11,7 @@ echo "=================================="
 echo ""
 
 # Check if running as root
-if [[ $EUID -eq 0 ]]; then
+if [ "$(id -u)" -eq 0 ]; then
    echo "⚠️  This script should not be run as root. Please run as a regular user (sudo will be used when needed)."
    exit 1
 fi
