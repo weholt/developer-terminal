@@ -93,7 +93,14 @@ RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
 # Install VHS (requires ffmpeg)
 RUN set -eux; \
     VHS_VERSION=$(curl -s "https://api.github.com/repos/charmbracelet/vhs/releases/latest" | jq -r '.tag_name | ltrimstr(\"v\")'); \
-    curl -Lo vhs.tar.gz "https://github.com/charmbracelet/vhs/releases/download/v${VHS_VERSION}/vhs_${VHS_VERSION}_Linux_x86_64.tar.gz"; \
+    if [ -z "$VHS_VERSION" ] || [ "$VHS_VERSION" = "null" ]; then echo "Failed to resolve VHS version" >&2; exit 1; fi; \
+    ARCH=$(uname -m); \
+    case "$ARCH" in \
+      x86_64) VHS_ARCH=Linux_x86_64 ;; \
+      aarch64|arm64) VHS_ARCH=Linux_arm64 ;; \
+      *) echo "Unsupported architecture: $ARCH" >&2; exit 1 ;; \
+    esac; \
+    curl -Lo vhs.tar.gz "https://github.com/charmbracelet/vhs/releases/download/v${VHS_VERSION}/vhs_${VHS_VERSION}_${VHS_ARCH}.tar.gz"; \
     tar xf vhs.tar.gz vhs; \
     install vhs /usr/local/bin; \
     rm vhs.tar.gz vhs
