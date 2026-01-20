@@ -47,7 +47,7 @@ curl -fsSL https://raw.githubusercontent.com/weholt/developer-terminal/main/inst
 - Shell Environments: bash, zsh, fish
 - Editors: nano, vim, neovim (with NvChad configuration)
 - Terminal UI: ttyd (web-based terminal), tmux (terminal multiplexer)
-- Utilities: git, curl, wget, htop, tree, jq, ripgrep, fzf, entr
+ - Utilities: git, curl, wget, htop, tree, jq, ripgrep, fzf, entr, ffmpeg
 - GitHub CLI (gh) - Official GitHub command-line tool
 
 ### File Management
@@ -116,6 +116,7 @@ Pre-installed globally:
 - NvChad - Neovim configuration
 - JetBrains Mono Nerd Font - Beautiful monospace font with icons
 - tmux configuration - Terminal multiplexer config
+- VHS - Terminal GIF/MP4 recorder
 
 ## Environment
 
@@ -155,4 +156,3 @@ docker build --no-cache -t dw:latest .
 - ~2GB disk space for the image
 - 2GB+ RAM recommended
 - Network access for package downloads
-
