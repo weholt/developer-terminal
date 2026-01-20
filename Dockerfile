@@ -36,7 +36,7 @@ RUN apt-get update && \
       python3 python3-pip python3-docker \
       unzip fontconfig ripgrep zsh fish direnv entr \
       rsync rclone glances iotop iftop bmon ncdu \
-      mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap tmux \
+      mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap tmux ffmpeg \
       && rm -rf /var/lib/apt/lists/*
 
 # Install GitHub CLI
@@ -89,6 +89,9 @@ RUN curl -fsSL https://cli.coderabbit.ai/install.sh | sh
 
 # Install Starship prompt
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+# Install VHS (requires ffmpeg)
+RUN curl -fsSL https://raw.githubusercontent.com/charmbracelet/vhs/main/install.sh | bash
 
 # Install Yazi file manager (musl binary)
 RUN cd /tmp && \
