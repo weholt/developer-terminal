@@ -92,8 +92,8 @@ RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
 
 # Install VHS (requires ffmpeg)
 RUN set -eux; \
-    VHS_VERSION=$(curl -s "https://api.github.com/repos/charmbracelet/vhs/releases/latest" | grep -Po '"tag_name": "v\K[^"]*'); \
-    curl -Lo vhs.tar.gz "https://github.com/charmbracelet/vhs/releases/latest/download/vhs_${VHS_VERSION}_Linux_x86_64.tar.gz"; \
+    VHS_VERSION=$(curl -s "https://api.github.com/repos/charmbracelet/vhs/releases/latest" | jq -r '.tag_name | ltrimstr(\"v\")'); \
+    curl -Lo vhs.tar.gz "https://github.com/charmbracelet/vhs/releases/download/v${VHS_VERSION}/vhs_${VHS_VERSION}_Linux_x86_64.tar.gz"; \
     tar xf vhs.tar.gz vhs; \
     install vhs /usr/local/bin; \
     rm vhs.tar.gz vhs
