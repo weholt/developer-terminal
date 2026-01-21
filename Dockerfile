@@ -36,7 +36,7 @@ RUN apt-get update && \
       python3 python3-pip python3-docker \
       unzip fontconfig ripgrep zsh fish direnv entr \
       rsync rclone glances iotop iftop bmon ncdu \
-      mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap tmux \
+      mediainfo p7zip pass httpie tldr pgcli bat nvtop nmap tmux ffmpeg \
       && rm -rf /var/lib/apt/lists/*
 
 # Install GitHub CLI
@@ -89,6 +89,21 @@ RUN curl -fsSL https://cli.coderabbit.ai/install.sh | sh
 
 # Install Starship prompt
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+# Install VHS (requires ffmpeg)
+RUN set -eux; \
+    VHS_VERSION=$(curl -s "https://api.github.com/repos/charmbracelet/vhs/releases/latest" | jq -r '.tag_name | ltrimstr(\"v\")'); \
+    if [ -z "$VHS_VERSION" ] || [ "$VHS_VERSION" = "null" ]; then echo "Failed to resolve VHS version" >&2; exit 1; fi; \
+    ARCH=$(uname -m); \
+    case "$ARCH" in \
+      x86_64) VHS_ARCH=Linux_x86_64 ;; \
+      aarch64|arm64) VHS_ARCH=Linux_arm64 ;; \
+      *) echo "Unsupported architecture: $ARCH" >&2; exit 1 ;; \
+    esac; \
+    curl -Lo vhs.tar.gz "https://github.com/charmbracelet/vhs/releases/download/v${VHS_VERSION}/vhs_${VHS_VERSION}_${VHS_ARCH}.tar.gz"; \
+    tar xf vhs.tar.gz vhs; \
+    install vhs /usr/local/bin; \
+    rm vhs.tar.gz vhs
 
 # Install Yazi file manager (musl binary)
 RUN cd /tmp && \
