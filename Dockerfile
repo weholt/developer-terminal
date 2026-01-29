@@ -53,14 +53,14 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 FROM base AS lazytools
 
 RUN set -eux; \
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*'); \
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^\"]*"); \
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"; \
     tar xf lazygit.tar.gz lazygit; \
     install lazygit /usr/local/bin; \
     rm lazygit.tar.gz lazygit
 
 RUN set -eux; \
-    LAZYDOCKER_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | grep -Po '"tag_name": "v\K[^"]*'); \
+    LAZYDOCKER_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | grep -Po '"tag_name": "v\K[^\"]*'); \
     curl -Lo lazydocker.tar.gz "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz"; \
     tar xf lazydocker.tar.gz lazydocker; \
     install lazydocker /usr/local/bin; \
@@ -89,21 +89,6 @@ RUN curl -fsSL https://cli.coderabbit.ai/install.sh | sh
 
 # Install Starship prompt
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
-
-# Install VHS (requires ffmpeg)
-RUN set -eux; \
-    VHS_VERSION=$(curl -s "https://api.github.com/repos/charmbracelet/vhs/releases/latest" | jq -r '.tag_name | ltrimstr(\"v\")'); \
-    if [ -z "$VHS_VERSION" ] || [ "$VHS_VERSION" = "null" ]; then echo "Failed to resolve VHS version" >&2; exit 1; fi; \
-    ARCH=$(uname -m); \
-    case "$ARCH" in \
-      x86_64) VHS_ARCH=Linux_x86_64 ;; \
-      aarch64|arm64) VHS_ARCH=Linux_arm64 ;; \
-      *) echo "Unsupported architecture: $ARCH" >&2; exit 1 ;; \
-    esac; \
-    curl -Lo vhs.tar.gz "https://github.com/charmbracelet/vhs/releases/download/v${VHS_VERSION}/vhs_${VHS_VERSION}_${VHS_ARCH}.tar.gz"; \
-    tar xf vhs.tar.gz vhs; \
-    install vhs /usr/local/bin; \
-    rm vhs.tar.gz vhs
 
 # Install Yazi file manager (musl binary)
 RUN cd /tmp && \
